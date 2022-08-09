@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href="{% static 'css/shows/show-detail.css' %}"
+/>
+<script defer src="{% static 'js/show-detail.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="show-container">
+  <div class="show-img">
+    
+  </div>
+  <div class="show-details">
+    {% if show.final_date > 0 %}
+      <h2>{{ show.show}} end In {{show.final_date}} </h2>
+    {% else %}
+      <h2>A {{ show.show }} is still going on </h2>
+    {% endif %}
+    <p>{{ show.description }}</p>
+    <div class="show-actions">
+      <a href="{% url 'shows_update' show.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'shows_delete' show.id %}" class="btn danger">Delete</a>
+    </div>
+  </div>
+</section>
+
+
+  </section>
+  <section class="genres">
+    <div class="subsection-title">
+      <h2>Genres</h2>
+    </div>
+    <h3>{{ show.show }}'s genres</h3>
+    <div class="subsection-content">
+      {% if show.genres.count %}
+        {% for genre in show.genre.all %}
+          <div class="genre-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ genre.color }}"
+            ></div>
+            <a href="{% url 'genres_detail' genre.id %}">
+              <p>A {{ genre.color }} {{ genre.name }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-genres">{{ show.show }} doesn't have any genres 😞</p>
+      {% endif %}
+    </div>
+    <h3>Available Toys</h3>
+    <div class="subsection-content">
+      {% comment %} We'll display available toys here {% endcomment %}
+      {% if toys.count %}
+        {% for genre in genre.all %}
+          <div class="toy-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ genre.color }}"
+            ></div>
+            <a href="{% url 'genre_detail' genre.id %}">
+              <p>A {{ genre.color }} {{ genre.name }}</p>
+            </a>
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give toy</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="all-toys">
+          {{show.show}} already has all the available toys 🥳
+        </p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+  

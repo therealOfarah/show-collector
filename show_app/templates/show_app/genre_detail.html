@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/toys/toy-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+  
+<div class="card" style="border-color: {{ genre.color }}">
+  <div class="card-bg" style="background-color: {{ genre.color }}"></div>
+  <div class="card-content">
+    <h2>{{ genre.name }}</h2>
+    <p>A {{ genre.color }} toy</p>
+  </div>
+</div>
+<a href="{% url 'genre_update' genre.id %}" class="btn warn">Edit</a>
+<a href="{% url 'genre_delete' genre.id %}" class="btn danger">Delete</a>
+
+{% endblock %}
